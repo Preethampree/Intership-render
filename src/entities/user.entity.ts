@@ -1,10 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-import { Patient } from './patient.entity';
 import { Doctor } from './doctor.entity';
+import { Patient } from './patient.entity';
 
-export type UserRole = 'doctor' | 'patient' | 'admin';
-
-@Entity('users')
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,16 +16,12 @@ export class User {
   @Column()
   password: string;
 
-  @Column({
-    type: 'enum',
-    enum: ['doctor', 'patient', 'admin'],
-    default: 'patient',
-  })
-  role: UserRole;
+  @Column({ type: 'enum', enum: ['doctor', 'patient'] })
+  role: 'doctor' | 'patient';
 
-  @OneToOne(() => Patient, (patient) => patient.user)
-  patient: Patient;
-
-  @OneToOne(() => Doctor, (doctor) => doctor.user)
+  @OneToOne(() => Doctor, doctor => doctor.user)
   doctor: Doctor;
+
+  @OneToOne(() => Patient, patient => patient.user)
+  patient: Patient;
 }

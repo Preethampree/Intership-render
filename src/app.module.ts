@@ -1,10 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { HelloController } from './hello/hello.controller';
-
 import { User } from './entities/user.entity';
 import { Doctor } from './entities/doctor.entity';
 import { Patient } from './entities/patient.entity';
@@ -13,17 +8,15 @@ import { Patient } from './entities/patient.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',   
-      password: 'aryan512', 
-      database: 'internship_db', 
+      host: 'localhost',       // or your DB host
+      port: 5432,              // default PostgreSQL port
+      username: 'postgres',    // your DB username
+      password: '123456789',    // your DB password
+      database: 'schedula_db', // your DB name
       entities: [User, Doctor, Patient],
-      synchronize: true,, 
+      synchronize: true,       // auto-create tables (disable in production)
     }),
     TypeOrmModule.forFeature([User, Doctor, Patient]),
   ],
-  controllers: [AppController, HelloController],
-  providers: [AppService],
 })
 export class AppModule {}

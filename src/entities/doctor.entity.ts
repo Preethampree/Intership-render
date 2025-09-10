@@ -1,8 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm';
-import { Patient } from './patient.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 
-@Entity('doctors')
+@Entity()
 export class Doctor {
   @PrimaryGeneratedColumn()
   id: number;
@@ -10,10 +9,7 @@ export class Doctor {
   @Column()
   specialization: string;
 
-  @OneToOne(() => User, (user) => user.doctor, { onDelete: 'CASCADE' })
+  @OneToOne(() => User, user => user.doctor)
   @JoinColumn({ name: 'user_id' })
   user: User;
-
-  @OneToMany(() => Patient, (patient) => patient.doctor)
-  patients: Patient[];
 }
